@@ -1,3 +1,4 @@
+import { text } from "express";
 import { Socket } from "socket.io";
 import { io } from "../http";
 import { ConnectionsService } from "../services/ConnectionsService";
@@ -37,5 +38,30 @@ io.on("connect", (socket: Socket) => {
     }
 
     await messagesService.create({ text, user_id: user.id });
+
+    const allMessages = await messagesService.listByUser(user.id);
+
+    socket.emit("client_list_all_messages", allMessages);
+
+    const allUsers = await connectionsService.findAllWithoutAdmin();
+    io.emit("admin_list_all_users", allUsers);
+  });
+
+  socket.on("client_send_to_admin", async (params) => {
+    const { text, socket_admin_id } = params;
+
+    const socket_id = socket.id;
+
+    const { user_id } = await connectionsService.findBySocketId(socket_id);
+
+    const message = await messagesService.create({
+      text,
+      user_id,
+    });
+
+    io.to(socket_admin_id).emit("admin_receive_message", {
+      message,
+      socket_id,
+    });
   });
 });
