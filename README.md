@@ -38,8 +38,8 @@ Essas instruções vão te levar a uma cópia do projeto rodando em sua máquina
 Obs: Banco de dados é o Sqlite3, caso queira alterar, configure o arquivo ormconfig.json para seu banco de dados específico (Campo "database" é o nome do banco de dados no SGBD, neste projeto é local).
 
 ```bash
-- git clone https://github.com/alessandrobrunolima/nlw05-chat-backend
-- cd nlw05-chat-backend
+- git clone https://github.com/alessandrobrunolima/nlw05-chat
+- cd nlw05-chat
 ```
 
 Instalando dependências
